@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 필수 기술 스택
 
-## Getting Started
+### Framework & Language
 
-First, run the development server:
+- Next.js 16
+- TypeScript
+- React 19
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Dependency
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- tailwindcss
+- tailwind-merge: className 정리용
+- clsx: className 정리용
+- lucide-react: 아이콘 라이브러리(현재까지 Chevron Arrow만 썼으므로 삭제 무방)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Styling
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Tailwind CSS
+- 반응형 디자인 (Mobile First)
+- Utility-First
 
-## Learn More
+### SEO & Performance
 
-To learn more about Next.js, take a look at the following resources:
+- generateMetadata 함수 구현
+- 구조화된 데이터 (JSON-LD)
+- 이미지 최적화 (next/image)
+- Core Web Vitals 최적화
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 반응형 브레이크포인트
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Mobile: < 768px
+- Desktop: > 1024px
 
-## Deploy on Vercel
+## 필수 구현 기능
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 헤더
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [v] 로고 및 병원명
+- [ ] 네비게이션 메뉴 (모바일에서 햄버거 메뉴)
+- [v] 전화번호 (클릭 시 전화 연결)
+- [v] 플로팅 버튼
+
+### 메인 섹션
+
+- [v] 배경 이미지
+- [v] 메인 캐러셀
+- [v] CTA 버튼 (진료예약, 상담문의)
+
+### 병원 특징 섹션
+
+- [v] 4가지 주요 특징 카드 형태
+- [v] 아이콘 + 제목 + 설명
+- [v] 호버 효과 애니메이션
+
+### 의료진 소개
+
+- [v] 의료진
+- [v] 인사말 섹션
+
+### 진료과목 안내
+
+- [ ] 카테고리별 서비스 분류
+- [ ] 각 질환별 상세 정보
+- [ ] 아이콘 및 시각적 구분
+
+### 시설 갤러리
+
+- [ ] 병원 내부 시설 이미지
+- [ ] 갤러리 모달 또는 슬라이더
+
+### 블로그 섹션
+
+- [ ] 최신 포스트 3-4개 표시
+- [ ] 제목, 요약, 발행일, 읽기 시간
+- [ ] "더 보기" 링크
+
+### 오시는길
+
+- [v] 지도 이미지
+- [v] 주소 및 연락처 정보
+- [v] 대중교통 안내
+- [v] 주차 정보
+
+### 푸터
+
+- [v] 병원 정보 및 사업자 정보
+- [v] 개인정보처리방침 등
+
+## 성능 요구사항
+
+- Lighthouse 성능 점수 90점 이상
+- 첫 화면 로딩 시간 3초 이내
+- 이미지 lazy loading 적용
+- 적절한 캐싱 전략
+
+## 접근성 요구사항
+
+- WCAG 2.1 AA 수준 준수
+- 키보드 네비게이션 지원
+- 스크린 리더 호환성
+- 적절한 색상 대비비 (4.5:1 이상)
