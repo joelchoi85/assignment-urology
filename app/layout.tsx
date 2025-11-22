@@ -67,6 +67,15 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        {/* 크리티컬 CSS 인라인 */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif}
+              h2{contain:layout style}
+            `,
+          }}
+        />
         {/* 폰트 preload - Critical path 최적화 */}
         <link
           rel="preload"

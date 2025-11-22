@@ -150,6 +150,12 @@ export default function MainSlider() {
                     " text-[25px] lg:text-[64px] font-bold lg:font-semibold",
                     "tracking-[-1.28px] text-center text-white"
                   )}
+                  style={{
+                    // LCP 최적화: 폰트 로딩 전에도 올바른 크기 유지
+                    fontFamily: slide.id === 1 ? 'Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", sans-serif' : undefined,
+                    // GPU 가속
+                    willChange: slide.id === 1 ? 'auto' : undefined,
+                  }}
                 >
                   {slide.title}
                 </h2>

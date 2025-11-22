@@ -26,6 +26,9 @@ const nextConfig: NextConfig = {
 
   // PoweredBy 헤더 제거 (보안)
   poweredByHeader: false,
+
+  // Production 최적화
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;
