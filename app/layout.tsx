@@ -67,6 +67,14 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        {/* 폰트 preload - Critical path 최적화 */}
+        <link
+          rel="preload"
+          as="font"
+          href="/fonts/PretendardVariable.woff2"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         {/* 주요 이미지 preload */}
         <link
           rel="preload"

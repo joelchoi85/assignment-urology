@@ -53,19 +53,19 @@ const menu: MenuItem[] = [
       },
       {
         title: "링.필러 수술",
-        link: " ",
+        link: "",
       },
       {
         title: "발기부전 수술",
-        link: " ",
+        link: "",
       },
       {
         title: "남성 음경확대 수술",
-        link: " ",
+        link: "",
       },
       {
         title: "남성 귀두확대 수술",
-        link: " ",
+        link: "",
       },
     ],
   },
