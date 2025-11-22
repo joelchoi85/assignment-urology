@@ -25,7 +25,7 @@ export default function ErrorLayout({
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 flex items-center justify-center bg-gradient-to-b from-white to-gray-50">
+      <main className="flex-1 flex items-center justify-center bg-linear-to-b from-white to-gray-50">
         <div className="text-center px-4 py-20">
           <div className="mb-8">
             <div className="text-[#154c94] text-9xl font-light mb-4">
