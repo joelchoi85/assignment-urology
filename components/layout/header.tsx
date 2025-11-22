@@ -146,7 +146,17 @@ export default function Header() {
   const [openSubmenuIndices, setOpenSubmenuIndices] = useState<Set<number>>(
     new Set()
   );
+  const [enableBlur, setEnableBlur] = useState(false);
   const pathname = usePathname();
+
+  // LCP 이후 blur 활성화
+  useEffect(() => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => setEnableBlur(true));
+    } else {
+      setTimeout(() => setEnableBlur(true), 100);
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -218,7 +228,7 @@ export default function Header() {
           "fixed z-50 w-full",
           "h-12 md:h-25",
           "border-b",
-          "backdrop-blur-md",
+          enableBlur && "backdrop-blur-md",
           "transition-all duration-300",
           isHovered && "drop-shadow-lg drop-shadow-black/10",
           shouldUseColorTheme || isMobileMenuOpen

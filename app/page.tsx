@@ -2,7 +2,7 @@
 import dynamic from "next/dynamic";
 import Section from "@/components/layout/section-layout";
 import MainSlider from "@/components/main-slider";
-import { useSectionScroll } from "@/utils/useSectionScroll";
+import { useEffect } from "react";
 
 // 초기 로드에 필요하지 않은 컴포넌트는 동적 import
 const NavigationDots = dynamic(
@@ -36,7 +36,24 @@ const BlogSection = dynamic(() => import("@/components/sections/section9"));
 const Location = dynamic(() => import("@/components/location"));
 
 export default function Home() {
-  useSectionScroll();
+  // LCP 이후에 섹션 스크롤 초기화
+  useEffect(() => {
+    // requestIdleCallback으로 유휴 시간에 실행
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        import("@/utils/useSectionScroll").then(({ setupSectionScroll }) => {
+          setupSectionScroll();
+        });
+      });
+    } else {
+      // fallback
+      setTimeout(() => {
+        import("@/utils/useSectionScroll").then(({ setupSectionScroll }) => {
+          setupSectionScroll();
+        });
+      }, 1000);
+    }
+  }, []);
 
   return (
     <div className="relative mx-auto w-full">

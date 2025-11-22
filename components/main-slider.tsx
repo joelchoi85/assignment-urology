@@ -58,11 +58,26 @@ export default function MainSlider() {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 4000);
+    // 자동 슬라이드는 LCP 이후 시작
+    const startTimer = () => {
+      const timer = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }, 4000);
+      return timer;
+    };
 
-    return () => clearInterval(timer);
+    let timer: NodeJS.Timeout;
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        timer = startTimer();
+      });
+    } else {
+      timer = startTimer();
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
   }, [resetTimer]);
 
   const handleSlideChange = (newSlide: number) => {
