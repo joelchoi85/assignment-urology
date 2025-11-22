@@ -215,10 +215,8 @@ export default function Header() {
     <>
       <header
         className={cn(
-          "fixed z-50",
-          "mx-auto w-full h-12 md:h-25 flex justify-between items-center",
-          "px-[clamp(180px,30vw,220px)] md:gap-[clamp(50px,20vw,195px)]",
-          "max-md:px-6",
+          "fixed z-50 w-full",
+          "h-12 md:h-25",
           "border-b",
           "backdrop-blur-md",
           "transition-all duration-300",
@@ -226,49 +224,61 @@ export default function Header() {
           shouldUseColorTheme || isMobileMenuOpen
             ? "bg-white border-black/5 text-black"
             : "border-white",
-          // Hide header on mobile scroll down
-          !isHeaderVisible && !isMobileMenuOpen && "md:translate-y-0 -translate-y-full"
+          // 모바일에서 아래로 스와이프시 메뉴바 숨김
+          !isHeaderVisible &&
+            !isMobileMenuOpen &&
+            "md:translate-y-0 -translate-y-full"
         )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Logo
-          alt="비뇨기과"
-          variant={shouldUseColorTheme || isMobileMenuOpen ? "color" : "white"}
-        />
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex group grow gap-4 justify-between items-center">
-          {menu.map((menuItem, index) => (
-            <MenuButton
-              key={`menu${index}`}
-              link={menuItem.link}
-              title={menuItem.title}
-              submenu={menuItem.submenu}
-              className={cn(
-                "flex gap-1 items-center",
-                "transition-all duration-150 ease-in-out",
-                "text-[clamp(14px,1vw,18px)] text-left"
-              )}
-            />
-          ))}
-        </nav>
-
-        {/* Mobile Hamburger Menu */}
-        <button
-          className="md:hidden p-3 pr-0"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? (
-            <X size={24} className="text-[#154c94]" />
-          ) : (
-            <Menu
-              size={24}
-              className={shouldUseColorTheme ? "text-black" : "text-white"}
-            />
+        <div
+          className={cn(
+            "mx-auto max-w-[1920px] h-full",
+            "flex justify-between items-center",
+            "px-6 md:px-[220px_196px]"
           )}
-        </button>
+        >
+          <Logo
+            alt="비뇨기과"
+            variant={
+              shouldUseColorTheme || isMobileMenuOpen ? "color" : "white"
+            }
+          />
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex group gap-[clamp(12px,2vw,36px)] justify-between items-center">
+            {menu.map((menuItem, index) => (
+              <MenuButton
+                key={`menu${index}`}
+                link={menuItem.link}
+                title={menuItem.title}
+                submenu={menuItem.submenu}
+                className={cn(
+                  "flex gap-1 items-center",
+                  "transition-all duration-150 ease-in-out",
+                  "text-[clamp(14px,1vw,18px)] text-left"
+                )}
+              />
+            ))}
+          </nav>
+
+          {/* Mobile Hamburger Menu */}
+          <button
+            className="md:hidden p-3 pr-0"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <X size={24} className="text-[#154c94]" />
+            ) : (
+              <Menu
+                size={24}
+                className={shouldUseColorTheme ? "text-black" : "text-white"}
+              />
+            )}
+          </button>
+        </div>
       </header>
 
       {/* Mobile Drawer Menu */}
