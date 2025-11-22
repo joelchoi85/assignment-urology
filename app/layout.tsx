@@ -71,8 +71,15 @@ export default function RootLayout({
         <link
           rel="preload"
           as="image"
-          href="/img/main-slide/main-01.webp"
+          href="/img/main-01-01-bg.webp"
           type="image/webp"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/logo-white.png"
+          fetchPriority="high"
         />
       </head>
       <body

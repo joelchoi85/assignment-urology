@@ -24,6 +24,8 @@ export default function Logo({
         alt={alt}
         className="absolute inset-0 transition-opacity duration-300"
         style={{ opacity: 1 - colorOpacity }}
+        priority
+        fetchPriority="high"
       />
       <Image
         src="/logo-color.png"
@@ -32,6 +34,7 @@ export default function Logo({
         alt={alt}
         className="absolute inset-0 transition-opacity duration-300"
         style={{ opacity: colorOpacity }}
+        loading={variant === "color" ? "eager" : "lazy"}
       />
     </Link>
   );

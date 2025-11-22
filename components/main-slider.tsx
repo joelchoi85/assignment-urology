@@ -121,6 +121,8 @@ export default function MainSlider() {
                 className="object-cover pointer-events-none"
                 priority={slide.id === 1}
                 draggable={false}
+                sizes="100vw"
+                fetchPriority={slide.id === 1 ? "high" : "auto"}
               />
             </div>
 
