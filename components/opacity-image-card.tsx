@@ -13,7 +13,6 @@ export default function OpacityImageCard({
   subject,
   englishSubject,
   imgSrc,
-  link,
 }: OpacityImageCardProps) {
   return (
     <div className="flex flex-col lg:w-[430px] gap-2.5 lg:gap-5">

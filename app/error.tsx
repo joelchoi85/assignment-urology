@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { cn } from "@/utils/default";
+import Link from "next/link";
 
 export default function Error({
   error,
@@ -43,9 +44,9 @@ export default function Error({
               다시 시도하기
             </button>
             <div className="mt-4">
-              <a href="/" className="text-[#154c94] hover:underline text-lg">
+              <Link href="/" className="text-[#154c94] hover:underline text-lg">
                 메인 페이지로 돌아가기
-              </a>
+              </Link>
             </div>
           </div>
 

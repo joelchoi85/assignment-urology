@@ -25,7 +25,6 @@ export default function ImageCard({
   subtitle,
   englishTitle,
   imgSrc,
-  link,
   isActive = false,
   hasHovered = false,
   onClick,
@@ -53,6 +52,15 @@ export default function ImageCard({
         "lg:h-[476px]"
       )}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-pressed={isActive}
     >
       {imgSrc && (
         <Image

@@ -1,69 +1,262 @@
 "use client";
-import { useStaggeredAnimation } from "@/utils/useScrollAnimation";
+import { useState, useRef, useEffect } from "react";
+import { useScrollAnimation } from "@/utils/useScrollAnimation";
+import { useLazyBackground } from "@/utils/useLazyBackground";
 import { cn } from "@/utils/default";
+import Image from "next/image";
+import ChiefInfo, { ChiefInfoProps } from "../chief-info";
+import SliderIndicator from "../slider-indicator";
 import SectionLabel from "../section-label";
 
-const greeting = `우리나라 최고의 병원에서 비뇨기과라는 생소한 학문을 전공하고 연고도 없고 태어나 한 번도 방문한 적이 없었던 서울로 내려와 지역민들과 함께 울고 함께 웃으며 진료한 지 어느덧 14년째를 보내고 있습니다.
+interface ChiefData extends Omit<ChiefInfoProps, "isVisible"> {
+  imageSrc: string;
+  imageAlt: string;
+}
 
-저를 비롯하여 삼성비뇨기과 직원 모두가 환자분들께 불편한 몸의 회복뿐만 아니라 이곳에 오길 잘했다는 흐뭇한 마음과 좋은 경험을 드리고자 노력해 온 짧지 않은 시간이었습니다.
+const chiefs: ChiefData[] = [
+  {
+    imageSrc: "/main-chief.webp",
+    imageAlt: "대표원장",
+    title: "서울병원 출신 · 비뇨기과 18년 경력 · 비뇨기과 전문의",
+    name: "가 원 장",
+    position: "대표원장",
+    careers: [
+      "서울병원 비뇨기과 레지던트",
+      "서울아산병원 인턴",
+      "성균관대학교 의과대학 외래부교수",
+      "UCLA의대 비뇨기과 골반재건수술센터 연수",
+      "서울송도병원 골반저질환센터 비뇨기과 과장",
+      "유어스비뇨기과의원 원장",
+    ],
+  },
+  {
+    imageSrc: "/sub-chief.webp",
+    imageAlt: "부원장",
+    title: "국립중앙의료원 비뇨기과 전문의",
+    name: "나 원 장",
+    position: "부원장",
+    careers: [
+      "전북대학교 의과대학 졸업",
+      "국립중앙의료원 비뇨기과 전문의",
+      "한림대학교 강동성심병원 전문의",
+      "대학 비뇨의학회 정회원",
+      "국립중앙의료원 진료 자문위원",
+      "호성전주병원 진료과장",
+      "닥터유비뇨기과 원장",
+    ],
+  },
+];
 
-그동안 감사하게도 14만 여명 이상의 많은 환자분들이 우리 병원을 찾아주셔서 협소한 공간 문제를 해결하기 위해 2년 전 현 위치로 병원을 확장, 이전하여 진료 중이고 양질의 서비스를 제공하고자 각고의 노력을 기울이고 있습니다.
+interface ChiefSectionProps {
+  chief: ChiefData;
+  otherChief: ChiefData;
+  index: number;
+  hoveredIndex: number | null;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+  reverse?: boolean;
+}
 
-앞으로도 환자 한 분 한 분께 최선의 진료로 임할 것을 약속드리며,
-환절기 건강 유의하시고 행복한 하루 되시기를 바랍니다. 감사합니다.`;
-export default function MainChiefIntroduction() {
-  const { containerRef, visibleItems } = useStaggeredAnimation(6, {
-    threshold: 0.2,
-    staggerDelay: 150,
-    triggerOnce: false,
-  });
+function ChiefSection({
+  chief,
+  otherChief,
+  index,
+  hoveredIndex,
+  onMouseEnter,
+  onMouseLeave,
+  reverse = false,
+}: ChiefSectionProps) {
+  const isOtherHovered = hoveredIndex !== null && hoveredIndex !== index;
+  const showInfo = isOtherHovered;
 
   return (
-    <div className="relative w-full h-screen bg-[url(/img/section/main-07-bg.webp)] bg-contain bg-no-repeat bg-top lg:bg-cover lg:bg-center scale-x-[-1] lg:scale-x-100">
-      <div className="visible lg:invisible absolute top-0 left-0 w-screen h-screen bg-linear-to-b from-transparent from-20% to-25% to-black"></div>
-      <div className="absolute left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-5/9 pt-[70px] lg:pt-[220px] w-[90vw] lg:w-1/2 scale-x-[-1] lg:scale-x-100">
-        <div ref={containerRef} className="flex flex-col mb-20">
-          <SectionLabel
-            className={cn(
-              "fade-in-up-on-scroll mb-4 lg:mb-6",
-              visibleItems[0] && "visible"
-            )}
-            variant="white"
-          />
-          <div
-            className={cn(
-              "fade-in-up-on-scroll font-light text-base lg:text-[28px]",
-              visibleItems[1] && "visible"
-            )}
-          >
-            서울병원 전문의 출신
+    <div
+      className={cn(
+        "relative flex items-center justify-center",
+        reverse && "flex-row-reverse"
+      )}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {/* Info Layer */}
+      <div
+        className={cn(
+          "absolute inset-0 flex items-center justify-center transition-opacity duration-500",
+          showInfo ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+      >
+        <div className="px-20 w-full">
+          <ChiefInfo {...otherChief} isVisible={showInfo} />
+        </div>
+      </div>
+
+      {/* Image Layer */}
+      <div
+        className={cn(
+          "select-none transition-opacity duration-500",
+          showInfo ? "opacity-0" : "opacity-100"
+        )}
+      >
+        <Image
+          src={chief.imageSrc}
+          alt={chief.imageAlt}
+          width={425}
+          height={760}
+          className="select-none object-cover"
+        />
+      </div>
+    </div>
+  );
+}
+
+export default function ChiefIntroduction() {
+  const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.2 });
+  const { elementRef: bgRef, isLoaded } = useLazyBackground(
+    "/img/section/main-06-bg.webp"
+  );
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current - touchEndX.current > 50) {
+      // 왼쪽으로 스와이프
+      setActiveIndex((prev) => (prev + 1) % chiefs.length);
+    }
+
+    if (touchStartX.current - touchEndX.current < -50) {
+      // 오른쪽으로 스와이프
+      setActiveIndex((prev) => (prev - 1 + chiefs.length) % chiefs.length);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % chiefs.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div
+      ref={bgRef}
+      className="relative w-full h-screen bg-cover bg-center flex justify-center overflow-hidden"
+      style={{
+        backgroundImage: isLoaded
+          ? "url(/img/section/main-06-bg.webp)"
+          : "none",
+      }}
+    >
+      <div className="pt-[100px] lg:pt-[220px] w-full">
+        <div
+          ref={elementRef}
+          className={cn(
+            "fade-in-up-on-scroll flex flex-col items-center mb-4 lg:mb-20",
+            isVisible && "visible"
+          )}
+        >
+          <SectionLabel variant="blue" className="mb-[15px] lg:mb-6" />
+          <div className="text-[24px] lg:text-5xl font-light text-black">
+            비뇨기과 의원
+            <span className="pl-2 font-semibold">
+              의료진
+              <span className="hidden lg:inline-block">을 소개합니다.</span>
+              <span className="pl-1.5 lg:hidden inline-block">소개</span>
+            </span>
           </div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden lg:flex absolute bottom-0 left-1/2 -translate-x-1/2 justify-center">
+          {chiefs.map((chief, index) => (
+            <ChiefSection
+              key={index}
+              chief={chief}
+              otherChief={chiefs[1 - index]}
+              index={index}
+              hoveredIndex={hoveredIndex}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              reverse={index === 1}
+            />
+          ))}
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="select-none lg:hidden flex flex-col items-center ">
           <div
-            className={cn(
-              "fade-in-up-on-scroll lg:mt-3 text-5xl font-light text-[24px] lg:text-[56px]",
-              visibleItems[2] && "visible"
-            )}
+            className="relative w-full flex flex-col items-center"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
-            <span className="font-semibold">가원장</span>
-            <span className="pl-2">대표 원장</span>
-            <span className="font-semibold pl-2">인사말</span>
+            <div className="relative w-full flex justify-center">
+              {chiefs.map((chief, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "absolute transition-opacity duration-500",
+                    index === activeIndex ? "opacity-100" : "opacity-0"
+                  )}
+                >
+                  {/* Card */}
+                  <div className="flex flex-col items-center">
+                    {/* Image */}
+                    <Image
+                      src={chief.imageSrc}
+                      alt={chief.imageAlt}
+                      width={207}
+                      height={281}
+                      className="object-cover rounded-t-lg"
+                    />
+                    {/* Info */}
+                    <div className="-mt-24 w-[87vw] py-6 bg-white rounded-xl *:px-[26px] text-black">
+                      <div className="text-[12px] font-semibold  mb-2">
+                        {chief.title}
+                      </div>
+                      <div className="flex items-center gap-2.5 mb-1">
+                        <span className="font-semibold text-[24px]">
+                          {chief.name}
+                        </span>
+                        <span className="font-light text-[16px] text-gray-600">
+                          {chief.position}
+                        </span>
+                      </div>
+                      <div className="mt-5 font-light text-[14px]">
+                        {chief.careers.map((career, idx) => (
+                          <div
+                            key={idx}
+                            className="tracking-[-0.28] text-gray-700"
+                          >
+                            • {career}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div
-            className={cn(
-              "hidden lg:block fade-in-up-on-scroll mt-30 font-bold text-[22px]",
-              visibleItems[3] && "visible"
-            )}
-          >
-            비뇨기과의원 병원장 인사말
+          {/* Indicator */}
+          <div className="absolute bottom-8 mt-[350px]">
+            <SliderIndicator
+              total={chiefs.length}
+              activeIndex={activeIndex}
+              onDotClick={setActiveIndex}
+              variant="light"
+            />
           </div>
-          <hr
-            className={cn(
-              "hidden lg:block fade-in-up-on-scroll mt-6 border-white/20",
-              visibleItems[4] && "visible"
-            )}
-          />
-          {/* prettier-ignore */}
-          <div className={cn("fade-in-up-on-scroll mt-30 lg:mt-6 lg:w-[600px] whitespace-pre-line break-keep text-[14px] lg:text-[18px] leading-6 lg:leading-8", visibleItems[5] && "visible")}>{greeting}</div>
         </div>
       </div>
     </div>

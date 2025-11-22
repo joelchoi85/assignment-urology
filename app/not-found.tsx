@@ -1,6 +1,5 @@
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
 import { cn } from "@/utils/default";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -18,7 +17,7 @@ export default function NotFound() {
           </div>
 
           <div className="space-y-4">
-            <a
+            <Link
               href="/"
               className={cn(
                 "inline-block px-8 py-4 bg-[#154c94] text-white rounded-lg",
@@ -27,7 +26,7 @@ export default function NotFound() {
               )}
             >
               메인 페이지로 이동
-            </a>
+            </Link>
           </div>
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">

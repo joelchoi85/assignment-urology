@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { cn } from "@/utils/default";
 import LeftArrowIcon from "./icons/left-arrow-icon";
@@ -19,55 +19,33 @@ export default function BuildingSlider({
   images,
   autoPlayInterval = 2000,
 }: BuildingSliderProps) {
+  const totalImages = images.length;
+
+  const getPrevIndexFunc = (index: number) =>
+    (index - 1 + totalImages) % totalImages;
+  const getNextIndexFunc = (index: number) => (index + 1) % totalImages;
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [slides, setSlides] = useState<SlideState[]>([]);
+  const [slides, setSlides] = useState<SlideState[]>(() => [
+    { index: getPrevIndexFunc(0), position: "left" },
+    { index: 0, position: "center" },
+    { index: getNextIndexFunc(0), position: "right" },
+  ]);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  const totalImages = images.length;
+  const getPrevIndex = useCallback(
+    (index: number) => (index - 1 + totalImages) % totalImages,
+    [totalImages]
+  );
+  const getNextIndex = useCallback(
+    (index: number) => (index + 1) % totalImages,
+    [totalImages]
+  );
 
-  const getPrevIndex = (index: number) =>
-    (index - 1 + totalImages) % totalImages;
-  const getNextIndex = (index: number) => (index + 1) % totalImages;
-
-  // Initialize slides
-  useEffect(() => {
-    setSlides([
-      { index: getPrevIndex(currentIndex), position: "left" },
-      { index: currentIndex, position: "center" },
-      { index: getNextIndex(currentIndex), position: "right" },
-    ]);
-  }, []);
-
-  // Auto-play functionality
-  useEffect(() => {
-    const startAutoPlay = () => {
-      intervalRef.current = setInterval(() => {
-        handleNext();
-      }, autoPlayInterval);
-    };
-
-    startAutoPlay();
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [currentIndex, autoPlayInterval]);
-
-  const resetAutoPlay = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    intervalRef.current = setInterval(() => {
-      handleNext();
-    }, autoPlayInterval);
-  };
-
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
 
@@ -104,9 +82,18 @@ export default function BuildingSlider({
       setSlides((prev) => prev.filter((s) => s.position !== "exiting-left"));
       setIsTransitioning(false);
     }, 650);
-  };
+  }, [isTransitioning, currentIndex, getNextIndex]);
 
-  const handlePrev = () => {
+  const resetAutoPlay = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    intervalRef.current = setInterval(() => {
+      handleNext();
+    }, autoPlayInterval);
+  }, [autoPlayInterval, handleNext]);
+
+  const handlePrev = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
 
@@ -143,7 +130,24 @@ export default function BuildingSlider({
     }, 650);
 
     resetAutoPlay();
-  };
+  }, [isTransitioning, currentIndex, getPrevIndex, resetAutoPlay]);
+
+  // Auto-play functionality
+  useEffect(() => {
+    const startAutoPlay = () => {
+      intervalRef.current = setInterval(() => {
+        handleNext();
+      }, autoPlayInterval);
+    };
+
+    startAutoPlay();
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [autoPlayInterval, handleNext]);
 
   const handleNextClick = () => {
     handleNext();

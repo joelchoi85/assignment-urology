@@ -1,143 +1,141 @@
 "use client";
 import { cn } from "@/utils/default";
-import ImageCard, { ImageCardProps } from "../image-card";
-import SectionLabel from "../section-label";
-import { useState } from "react";
+import CheckIcon from "../icons/check-icon";
+import { useStaggeredAnimation } from "@/utils/useScrollAnimation";
+import { useLazyBackground } from "@/utils/useLazyBackground";
 
-const visions: ImageCardProps[] = [
-  {
-    bgColor: "#98C5D6",
-    title: "개인별 맞춤 진료",
-    subtitle: "비뇨기과 전문의",
-    englishTitle: "Three urologists",
-    imgSrc: "/img/section/18834.webp",
-    link: "",
-    details: {
-      slogans: [
-        <div className="font-bold">서울병원 전문의 출신</div>,
-        <div className="font-bold">성균관대학교 의과대학 외래부교수</div>,
-      ],
-      descriptions: [
-        <div>
-          <span className="font-bold">서울병원</span>과 상호 환자 의뢰를
-        </div>,
-        <div>
-          통한 <span className="font-bold">협력체계</span>를 운영
-        </div>,
-      ],
-    },
-  },
-  {
-    bgColor: "#9CAA92",
-    title: "1:1 전담 진료",
-    subtitle: "프라이빗한",
-    englishTitle: "Private 1:1 care",
-    imgSrc: "/img/section/18835.webp",
-    link: "",
-    details: {
-      slogans: [
-        <div className="font-bold">담당 의료진이 상담부터 시술 및 수술</div>,
-        <div className="font-bold">수술 후 관리까지 체계적 관리</div>,
-      ],
-      descriptions: [
-        <div>환자 한 분 한 분 개인 상태에 따라</div>,
-        <div>
-          <span className="font-bold">프라이빗한 맞춤형 진료</span>보장
-        </div>,
-      ],
-    },
-  },
-  {
-    bgColor: "#BFA69A",
-    title: "열려 있는 진료실",
-    subtitle: "365일 24시간",
-    englishTitle: "A clinic that is always open",
-    imgSrc: "/img/section/18836.webp",
-    link: "",
-    details: {
-      slogans: [
-        <div className="font-bold">요로결석 응급센터 365일 24시간</div>,
-        <div>시간 상관없이 요로결석 치료 가능</div>,
-      ],
-      descriptions: [
-        <div>
-          <span className="font-bold">당일검사와 당일치료,</span>
-        </div>,
-        <div>그리고 수술까지 한 번에 해결</div>,
-      ],
-    },
-  },
-  {
-    bgColor: "#95897A",
-    title: "발전하는 병원",
-    subtitle: "쉬지 않고",
-    englishTitle: "A developing hospital",
-    imgSrc: "/img/section/18837.webp",
-    link: "",
-    details: {
-      slogans: [
-        <div className="font-bold">끊임없는 연구, 해외교류 학술활동</div>,
-        <div>독보적인 치료 시스템 보유</div>,
-      ],
-      descriptions: [
-        <div>비뇨기질환 정복을 위해</div>,
-        <div>
-          <span className="font-bold">지속적으로 연구</span>하는 병원
-        </div>,
-      ],
-    },
-  },
-];
+export default function Introduction() {
+  const merits = [
+    "서울병원 출신 대표원장",
+    "비뇨기과 18년 경력",
+    "14만건 임상경험",
+  ];
+  const benefits = [
+    "당일 검사, 당일 치료 및 수술",
+    "충분한 상담, 꼭 필요한 치료만 진행",
+    "환자분들의 편안한 진료만을 생각한 동선 설계 인테리어",
+    "대학병원과 동일한 수준의 검사 시스템",
+    "1:1 개인상태별 관리 시스템",
+  ];
 
-export default function Vision() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const { containerRef, visibleItems } = useStaggeredAnimation(6, {
+    threshold: 0.2,
+    staggerDelay: 150,
+    triggerOnce: false,
+  });
 
-  const handleCardClick = (index: number) => {
-    // 모바일에서만 클릭 토글 동작
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
-  const handleMouseEnter = (index: number) => {
-    setHoveredIndex(index);
-    // 데스크탑에서 hover 시 모바일 선택 해제
-    setActiveIndex(null);
-  };
+  const { elementRef: bgRef, isLoaded } = useLazyBackground(
+    "/img/section/main-2-bg.avif"
+  );
 
   return (
-    <div className={cn("min-h-screen w-full relative", "bg-white")}>
-      <div className="mx-auto px-4 pt-16 lg:pt-[220px] pb-10 flex flex-col items-center">
-        <div className="w-full max-w-[1400px]">
-          {/* 텍스트 섹션 - 모바일 가운데, 데스크탑 왼쪽 */}
-          <div className="text-center lg:text-left">
-            <SectionLabel variant="blue" size="sm" className="lg:text-[10px]" />
-            <div className="mt-6 lg:mt-12 mb-[5px] text-[16px] lg:text-[28px] font-light leading-tight lg:leading-[1.29px] tracking-[-0.56] text-black">
-              환자 한 분 한 분의 자신감과 자존감을 지키기 위해
-            </div>
-            <div className="mt-2 lg:mt-8 text-2xl lg:text-5xl text-black font-light lg:text-[50px]">
-              비뇨기과는{" "}
-              <span className="font-semibold">앞서 나가겠습니다.</span>
-            </div>
-          </div>
+    <div
+      ref={bgRef}
+      className={cn(
+        "min-h-full w-full flex items-center relative",
+        "bg-center bg-no-repeat",
+        "bg-size-[auto_75%] bg-position-[75%_100%] lg:bg-cover",
+        "text-white"
+      )}
+      style={{
+        backgroundImage: isLoaded
+          ? "url(/img/section/main-2-bg.avif)"
+          : "none",
+      }}
+    >
+      {/* 텍스트 가시성 확보를 위한 오버레이 */}
+      <div className="lg:invisible absolute inset-0 bg-linear-to-b from-black from-15% to-transparent pointer-events-none" />
 
-          {/* 카드 컨테이너 - 모바일 세로, 데스크탑 가로 */}
-          <div className="flex flex-col lg:flex-row gap-2 lg:gap-3.5 mt-8 lg:mt-10">
-            {visions.map((vision, index) => (
-              <div
-                key={`${index}_${vision.title}`}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                <ImageCard
-                  {...vision}
-                  isActive={index === (activeIndex ?? hoveredIndex)}
-                  hasHovered={hoveredIndex !== null}
-                  onClick={() => handleCardClick(index)}
-                />
-              </div>
-            ))}
-          </div>
+      <div
+        ref={containerRef}
+        className="w-full px-4 lg:pl-[280px] relative z-10"
+      >
+        <div
+          className={cn(
+            "fade-in-up-on-scroll text-[14px] lg:text-2xl font-light leading-5 lg:leading-8",
+            visibleItems[0] && "visible"
+          )}
+        >
+          <span className="lg:block">
+            {merits[0]}
+            <span className="lg:hidden">, </span>
+          </span>
+          <span>
+            {merits[1]}
+            <span>, </span>
+          </span>
+          <br className="lg:hidden" />
+          <span>{merits[2]} 임상경험을 보유한 비뇨기과의원</span>
         </div>
+        <div
+          className={cn(
+            "fade-in-up-on-scroll mt-5 lg:mt-2.5 text-[20px] lg:text-[50px] leading-tight",
+            visibleItems[1] && "visible"
+          )}
+        >
+          14년동안 유지중인{" "}
+          <span className="font-semibold">서울지역 환자사랑, 愛</span>
+        </div>
+
+        {/* Desktop version with manual breaks */}
+        <div
+          className={cn(
+            "hidden lg:block fade-in-up-on-scroll mt-7 lg:text-xl break-keep leading-8",
+            visibleItems[2] && "visible"
+          )}
+        >
+          &ldquo;국내 최고의 병원에서 비뇨기과를 전공한 후, 연고도 없는 서울로 내려와
+          <br />
+          지역민들과 함께 울고 웃으며 진료한 지 어느덧 14년이 되었습니다.
+          <br />
+          비뇨기과의원은 그동안 환자분들께 불편한 몸의 회복뿐만 아니라,
+          <br />
+          이곳에 오길 잘했다는 흐뭇한 마음과 좋은 경험을 드리고자 항상 최선을
+          다해왔습니다.&rdquo;
+        </div>
+
+        {/* Mobile version with single break */}
+        <div
+          className={cn(
+            "lg:hidden fade-in-up-on-scroll mt-8 text-[14px] break-keep leading-6",
+            visibleItems[2] && "visible"
+          )}
+        >
+          &ldquo;국내 최고의 병원에서 비뇨기과를 전공한 후, 연고도 없는 서울로 내려와
+          지역민들과 함께 울고 웃으며 진료한 지 어느덧 14년이 되었습니다.
+          <br />
+          비뇨기과의원은 그동안 환자분들께 불편한 몸의 회복뿐만 아니라, 이곳에
+          오길 잘했다는 흐뭇한 마음과 좋은 경험을 드리고자 항상 최선을
+          다해왔습니다.&rdquo;
+        </div>
+
+        <div
+          className={cn(
+            "hidden lg:block fade-in-up-on-scroll mt-12 lg:mt-20 font-bold text-2xl lg:text-[32px]",
+            visibleItems[3] && "visible"
+          )}
+        >
+          비뇨기과의원은 믿음을 드리기 위해 노력하겠습니다.
+        </div>
+        <hr
+          className={cn(
+            "hidden lg:block fade-in-up-on-scroll mt-4 w-3/4 lg:w-1/2 border-white/20",
+            visibleItems[4] && "visible"
+          )}
+        />
+        <ul
+          className={cn(
+            "fade-in-up-on-scroll mt-30 lg:mt-14 space-y-3 lg:space-y-4 text-[14px] lg:text-[22px]",
+            visibleItems[5] && "visible"
+          )}
+        >
+          {benefits.map((benefit, index) => (
+            <li key={index} className="flex items-center gap-1.5 lg:gap-3">
+              <CheckIcon className="shrink-0 text-white mr-2 lg:mr-3 mt-0.5 size-3 lg:size-4" />
+              <span className="break-keep">{benefit}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

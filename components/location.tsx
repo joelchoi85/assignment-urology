@@ -22,10 +22,11 @@ export default function Location() {
           </div>
           <div className="mt-16 space-y-6 lg:space-y-12">
             <div className="flex items-start gap-4">
-              <img
+              <Image
                 src="/img/map-icon.svg"
-                width="37"
-                height="37"
+                alt="위치"
+                width={37}
+                height={37}
                 className="hidden lg:block"
               />
               <div className="flex flex-col w-full gap-1 lg:gap-3">
@@ -42,10 +43,11 @@ export default function Location() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <img
+              <Image
                 src="/img/parking-icon.svg"
-                width="37"
-                height="37"
+                alt="주차"
+                width={37}
+                height={37}
                 className="hidden lg:block"
               />
               <div className="flex flex-col w-full gap-3">
@@ -102,10 +104,11 @@ export default function Location() {
             <div className="flex items-center w-[280px] lg:w-[440px]">
               <div className="hidden lg:block">전화상담</div>
               <div className="hidden lg:block mx-[25px] bg-[#a0c1ed] w-0.5 h-[22px]"></div>
-              <img
+              <Image
                 src="/img/phone-white.svg"
-                width="37"
-                height="37"
+                alt="전화"
+                width={37}
+                height={37}
                 className="mr-6 size-[29px] lg:size-[37px]"
               />
               <div className="text-[24px] lg:text-[34px] font-bold flex items-center">
@@ -115,10 +118,11 @@ export default function Location() {
             <div className="flex items-center w-[280px] lg:w-[440px]">
               <div className="hidden lg:block">카톡상담</div>
               <div className="hidden lg:block mx-[25px] bg-[#a0c1ed] w-0.5 h-[22px] "></div>
-              <img
+              <Image
                 src="/img/kakao-chanel.svg"
-                width="37"
-                height="37"
+                alt="카카오톡"
+                width={37}
+                height={37}
                 className="mr-6 size-[29px] lg:size-[37px]"
               />
               <div className="text-[24px] lg:text-[34px] font-bold flex items-center">

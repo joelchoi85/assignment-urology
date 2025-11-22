@@ -176,8 +176,9 @@ export default function Header() {
     };
   }, [prevScrollY]);
 
-  // Close mobile menu on route change
+  // 라우트 변경 시 모바일 메뉴 닫기
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMobileMenuOpen(false);
     setOpenSubmenuIndices(new Set());
   }, [pathname]);
@@ -352,6 +353,14 @@ export default function Header() {
         <div
           className="fixed inset-0 bg-black/50 z-30 md:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              setIsMobileMenuOpen(false);
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="메뉴 닫기"
           style={{ top: "var(--header-height, 100px)" }}
         />
       )}

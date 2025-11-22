@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/utils/default";
+import Image from "next/image";
 
 const menuList = [
   {
@@ -50,8 +51,11 @@ export default function QuickMenuList() {
             "w-10 h-10 lg:h-[60px] lg:w-[60px] hover:w-auto hover:px-6 hover:gap-3"
           )}
         >
-          <img
+          <Image
             src={menuItem.icon}
+            alt={menuItem.description}
+            width={36}
+            height={36}
             className={cn(
               "shrink-0 transition-all duration-300",
               index % 2 === 0 ? "size-6 lg:size-8" : "size-[22px] lg:size-9"
@@ -79,7 +83,13 @@ export default function QuickMenuList() {
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
         <span className="mb-0.5 lg:mb-2">TOP</span>
-        <img src="/img/top-icon.svg" className="absolute bottom-0 size-3.5" />
+        <Image
+          src="/img/top-icon.svg"
+          alt="맨 위로"
+          width={14}
+          height={14}
+          className="absolute bottom-0 size-3.5"
+        />
       </button>
     </div>
   );

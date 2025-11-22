@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 interface LogoProps {
   alt?: string;
@@ -12,7 +13,7 @@ export default function Logo({
   const colorOpacity = variant === "color" ? 1 : 0;
 
   return (
-    <a
+    <Link
       href="/"
       className="relative block min-w-[clamp(120px,10vw,202px)] h-[clamp(60px,5vw,100px)]"
     >
@@ -32,6 +33,6 @@ export default function Logo({
         className="absolute inset-0 transition-opacity duration-300"
         style={{ opacity: colorOpacity }}
       />
-    </a>
+    </Link>
   );
 }

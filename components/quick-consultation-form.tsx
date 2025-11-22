@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/utils/default";
-import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 const genderOptions = [

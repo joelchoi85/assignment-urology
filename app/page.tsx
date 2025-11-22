@@ -19,20 +19,20 @@ const QuickConsultationForm = dynamic(
 );
 
 // Below-the-fold 섹션들은 lazy load
-const Introduction = dynamic(() => import("@/components/sections/section1"));
-const Vision = dynamic(() => import("@/components/sections/section2"));
-const AdSliderSection = dynamic(() => import("@/components/sections/section3"));
+const Introduction = dynamic(() => import("@/components/sections/section2"));
+const Vision = dynamic(() => import("@/components/sections/section3"));
+const AdSliderSection = dynamic(() => import("@/components/sections/section4"));
 const SubjectInformation = dynamic(
-  () => import("@/components/sections/section4")
-);
-const ChiefIntroduction = dynamic(
   () => import("@/components/sections/section5")
 );
-const MainChiefIntroduction = dynamic(
+const ChiefIntroduction = dynamic(
   () => import("@/components/sections/section6")
 );
-const FacilityTour = dynamic(() => import("@/components/sections/section7"));
-const BlogSection = dynamic(() => import("@/components/sections/section8"));
+const MainChiefIntroduction = dynamic(
+  () => import("@/components/sections/section7")
+);
+const FacilityTour = dynamic(() => import("@/components/sections/section8"));
+const BlogSection = dynamic(() => import("@/components/sections/section9"));
 const Location = dynamic(() => import("@/components/location"));
 
 export default function Home() {
@@ -45,31 +45,31 @@ export default function Home() {
         <QuickMenuList />
       </div>
       <QuickConsultationForm />
-      <Section id="section-0">
+      <Section id="section-1">
         <MainSlider />
       </Section>
-      <Section id="section-1">
+      <Section id="section-2">
         <Introduction />
       </Section>
-      <Section id="section-2">
+      <Section id="section-3">
         <Vision />
       </Section>
-      <Section id="section-3">
+      <Section id="section-4">
         <AdSliderSection />
       </Section>
-      <Section id="section-4">
+      <Section id="section-5">
         <SubjectInformation />
       </Section>
-      <Section id="section-5">
+      <Section id="section-6">
         <ChiefIntroduction />
       </Section>
-      <Section id="section-6" className="h-full pb-16">
+      <Section id="section-7" className="h-full pb-16">
         <MainChiefIntroduction />
       </Section>
-      <Section id="section-7" className="h-full!">
+      <Section id="section-8" className="h-full!">
         <FacilityTour />
       </Section>
-      <Section id="section-8">
+      <Section id="section-9">
         <BlogSection />
       </Section>
       <Section id="section-10" className="h-full">
