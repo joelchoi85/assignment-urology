@@ -149,12 +149,17 @@ export default function Header() {
   const [enableBlur, setEnableBlur] = useState(false);
   const pathname = usePathname();
 
-  // LCP 이후 blur 활성화
+  // LCP 이후 blur 활성화 (모바일은 더 늦게)
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    const delay = isMobile ? 500 : 100;
+
     if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => setEnableBlur(true));
+      requestIdleCallback(() => {
+        setTimeout(() => setEnableBlur(true), delay);
+      });
     } else {
-      setTimeout(() => setEnableBlur(true), 100);
+      setTimeout(() => setEnableBlur(true), delay);
     }
   }, []);
 

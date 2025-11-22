@@ -35,6 +35,12 @@ export function generateMetadata(): Metadata {
     title: title,
     description: description,
     keywords: keywords,
+    viewport: {
+      width: "device-width",
+      initialScale: 1,
+      maximumScale: 5,
+      userScalable: true,
+    },
     openGraph: {
       title: title,
       description: description,
@@ -72,7 +78,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif}
-              h2{contain:layout style}
+              h2,p{contain:layout style}
+              @media(max-width:768px){p{transform:translateZ(0);backface-visibility:hidden}}
             `,
           }}
         />

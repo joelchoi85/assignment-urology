@@ -136,8 +136,9 @@ export default function MainSlider() {
                 className="object-cover pointer-events-none"
                 priority={slide.id === 1}
                 draggable={false}
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                 fetchPriority={slide.id === 1 ? "high" : "auto"}
+                loading={slide.id === 1 ? "eager" : "lazy"}
               />
             </div>
 
@@ -178,6 +179,11 @@ export default function MainSlider() {
                     "text-[16px] lg:text-[22px] font-light lg:leading-[1.18] break-keep",
                     "tracking-[-0.44px] text-center text-white [text-shadow:0_0_3px_rgba(0,0,0,0.15)]"
                   )}
+                  style={{
+                    // 모바일 LCP 최적화
+                    fontFamily: slide.id === 1 ? 'Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", sans-serif' : undefined,
+                    willChange: slide.id === 1 ? 'auto' : undefined,
+                  }}
                 >
                   {slide.description}
                 </p>

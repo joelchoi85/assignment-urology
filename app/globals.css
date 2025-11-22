@@ -45,9 +45,23 @@ body {
 }
 
 /* LCP 요소 최적화 */
-h2 {
+h2, p {
   /* 레이아웃 격리로 reflow 최소화 */
   contain: layout style;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  body {
+    /* 모바일 폰트 렌더링 최적화 */
+    text-rendering: optimizeSpeed;
+  }
+
+  p {
+    /* 모바일에서 GPU 가속 */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
 }
 
 /* Fade In Up Animation */
